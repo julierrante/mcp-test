@@ -1,10 +1,11 @@
 from mcp.server.fastmcp import FastMCP
 
 # Crear el servidor
-macp = FastMCP("Mi servidor jira")
+mcp = FastMCP("Mi servidor jira")
 
+@mcp.tool()
+def crear_usuario(nombre: str):
+    return f"Usuario {nombre} creado exitosamente"
 
-def funcion():
-    print("Hola MCP")
-
-return 
+if __name__ == "__main__":
+    mcp.run()
