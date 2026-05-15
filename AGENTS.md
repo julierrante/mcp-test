@@ -32,8 +32,8 @@ Al resolver un bug del proyecto MT, seguir siempre estos pasos en orden:
    b. Aplicar el fix en el código
    c. Commit: `fix(MT-{numero}): descripcion del fix` (Conventional Commits)
    d. Push del branch al repositorio remoto
-   e. Generar el link para crear el Pull Request hacia `main` con título y descripción pre-cargada usando el formato:
-      `https://github.com/julierrante/mcp-test/compare/main...{branch}?expand=1&title={titulo-encoded}&body={descripcion-encoded}`
-      Usar `expand=1` (NO `quick_pull=1`) para que el campo `body` se pre-cargue correctamente.
-      La descripción debe incluir: qué bug resuelve, qué cambios se hicieron y referencia al ticket (`Closes MT-{numero}`).
+   e. Crear el Pull Request usando el MCP de GitHub (tool: `create_pull_request`) con:
+      - owner: `julierrante`, repo: `mcp-test`, base: `main`
+      - title: `fix(MT-{numero}): descripcion del fix`
+      - body: qué bug resuelve, cambios realizados y `Closes MT-{numero}`
    f. **Transicionar el ticket en Jira a "En revisión"** (transition id: 31)
