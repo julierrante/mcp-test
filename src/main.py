@@ -1,3 +1,4 @@
+from datetime import date
 from mcp.server.fastmcp import FastMCP
 
 # Lista de países del mundo
@@ -48,16 +49,31 @@ def listar_paises() -> list[str]:
 
 
 @mcp.tool()
-def crear_usuario(nombre: str, telefono: str, dni: str, domicilio: str, pais: str):
-    """Crea un usuario con sus datos completos: nombre, teléfono, DNI, domicilio y país.
+def crear_usuario(nombre: str, telefono: str, dni: str, domicilio: str, pais: str, fecha_nacimiento: str):
+    """Crea un usuario con sus datos completos: nombre, teléfono, DNI, domicilio, país y fecha de nacimiento.
 
-    El campo 'pais' debe ser uno de los países válidos. Usá listar_paises() para ver las opciones.
+    - 'pais' debe ser uno de los países válidos. Usá listar_paises() para ver las opciones.
+    - 'fecha_nacimiento' debe estar en formato YYYY-MM-DD.
+    - Se admiten usuarios de cualquier edad, incluyendo menores de edad.
     """
     if pais not in PAISES:
         return {
             "error": f"País '{pais}' no válido. Usá listar_paises() para ver los países disponibles.",
             "paises_disponibles": PAISES,
         }
+
+    try:
+        nacimiento = date.fromisoformat(fecha_nacimiento)
+    except ValueError:
+        return {"error": "Formato de fecha inválido. Usá YYYY-MM-DD (ej: 2010-05-15)."}
+
+    hoy = date.today()
+    edad = hoy.year - nacimiento.year - ((hoy.month, hoy.day) < (nacimiento.month, nacimiento.day))
+
+    if edad < 0 or nacimiento > hoy:
+        return {"error": "La fecha de nacimiento no puede ser en el futuro."}
+
+    es_menor = edad < 18
 
     return {
         "mensaje": f"Usuario {nombre} creado exitosamente",
@@ -67,6 +83,9 @@ def crear_usuario(nombre: str, telefono: str, dni: str, domicilio: str, pais: st
             "dni": dni,
             "domicilio": domicilio,
             "pais": pais,
+            "fecha_nacimiento": fecha_nacimiento,
+            "edad": edad,
+            "es_menor_de_edad": es_menor,
         },
     }
 
