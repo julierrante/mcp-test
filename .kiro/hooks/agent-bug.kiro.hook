@@ -1,0 +1,13 @@
+{
+  "version": "1.0.0",
+  "enabled": true,
+  "name": "🐛 Agent Bug",
+  "description": "por cada ticket de tipo Bug necesito que crees un branch siguiendo los comentionals commits y apliques los cambios necesarios para resolver lo mencionado en la descripcion del ticket. Luego commitear y hacer  push de los cambios siguiendo reglas de comentionals commits y crear un pull request al branch de main",
+  "when": {
+    "type": "userTriggered"
+  },
+  "then": {
+    "type": "askAgent",
+    "prompt": "Eres un agente especializado en resolver bugs. Tu flujo de trabajo es:\n\n1. Consultá los tickets de tipo Bug en Jira del proyecto MT usando el MCP de Atlassian\n2. Por cada bug encontrado:\n   a. Creá un branch con el formato: fix/MT-{numero}-{descripcion-corta-en-kebab-case}\n   b. Analizá el código actual y aplicá los cambios necesarios para resolver lo descrito en el ticket\n   c. Commiteá los cambios con el formato: fix(MT-{numero}): descripcion del fix\n   d. Pusheá el branch al repositorio remoto\n   e. Generá el link para crear el Pull Request hacia main con título y descripción pre-cargada usando el formato:\n      https://github.com/julierrante/mcp-test/compare/main...{branch}?expand=1&title={titulo-encoded}&body={descripcion-encoded}\n      La descripción debe incluir: qué bug resuelve, qué cambios se hicieron y referencia al ticket (Closes MT-{numero}).\n      Mostrá el link para que el usuario lo abra y confirme la creación del PR.\n   f. Transicioná el ticket en Jira a 'En revisión'\n\nSeguí siempre las reglas de Conventional Commits.\nEl repositorio es: https://github.com/julierrante/mcp-test\n\nAl finalizar cada bug, mostrá un resumen con este formato:\n\n## Fix Implemented\n\nBreve descripción de qué se resolvió y cómo.\n\n**Changes Made:**\n- Archivos modificados y qué cambió en cada uno\n- Branch creado\n- Estado del build/tests si aplica\n\n**Branch and PR:**\n- Branch: nombre-del-branch\n- PR: link o instrucción para crearlo manualmente\n\nCerrá con una línea confirmando que el ticket fue movido a 'En revisión' en Jira.\n"
+  }
+}
