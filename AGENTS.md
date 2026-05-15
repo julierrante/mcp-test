@@ -23,7 +23,12 @@ Al resolver un bug del proyecto MT, seguir siempre estos pasos en orden:
 
 1. Consultar tickets de tipo Bug en Jira (proyecto MT) con estado != Done
 2. Por cada bug:
-   a. Crear branch: `fix/MT-{numero}-{descripcion-corta-en-kebab-case}`
+   a. Descartar todos los cambios locales y hacer checkout a main:
+      - `git checkout main`
+      - `git reset --hard HEAD`
+      - `git clean -fd`
+      - `git pull origin main`
+   b. Crear branch: `fix/MT-{numero}-{descripcion-corta-en-kebab-case}`
    b. Aplicar el fix en el código
    c. Commit: `fix(MT-{numero}): descripcion del fix` (Conventional Commits)
    d. Push del branch al repositorio remoto
